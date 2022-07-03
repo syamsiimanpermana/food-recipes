@@ -12,82 +12,92 @@ class Body extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: gap),
+          padding: const EdgeInsets.symmetric(horizontal: gap, vertical: 10),
           child: Text(
             'Resep Populer',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
         Categories(),
-        ProductCard(gridCount: 2),
+        Products(),
       ],
     );
   }
 }
 
-// card product
-class ProductCard extends StatelessWidget {
-  final int gridCount;
-
-  const ProductCard({Key? key, required this.gridCount}) : super(key: key);
+class Products extends StatelessWidget {
+  const Products({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: gridCount,
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
-
-      children: productList.map((food) {
+    return Column(
+      children: productList.map((data) {
         return InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return DetailScreen(foods: food);
-            }));
-          },
-          child: Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          onTap: () =>
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return DetailScreen(
+              foods: data,
+            );
+          })),
+          child: Container(
+            height: 200,
+            margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                  color: Colors.grey,
+                  spreadRadius: 2,
+                  blurRadius: 3,
+                  offset: const Offset(0, 2))
+            ]),
+            child: Row(
               children: [
                 Expanded(
-                  child: Image.asset(
-                    food.image,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: gap / 4),
-                  child: Text(
-                    food.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.tag),
-                      onPressed: () {},
-                    ),
-                    SizedBox(width: 6),
-                    Text(
-                      food.description,
-                      style: TextStyle(
-                        color: Colors.grey,
+                    flex: 1,
+                    child: Image.network(
+                      data.image,
+                      fit: BoxFit.cover,
+                    )),
+                Expanded(
+                    flex: 2,
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        children: [
+                          Text(
+                            data.name,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orange[500]),
+                            textAlign: TextAlign.start,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(height: 50,),
+                              Icon(Icons.bookmark, color: Colors.grey[600],),
+                              Text(data.category, style: TextStyle(color: Colors.grey[600], fontSize: 13),)
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            data.description,
+                            maxLines: 3,
+                            style: TextStyle(
+                                color: Colors.black, height: 1.5),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
+                    ))
               ],
             ),
           ),
         );
       }).toList(),
     );
+    
   }
 }
 

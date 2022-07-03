@@ -9,13 +9,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange[400],
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: Icon(Icons.menu, color: Colors.black,),
           onPressed: () {},
         ),
-        title: const Text('Food Recipes'),
+        title: const Text('Food Recipes', style: TextStyle(color: orange, fontWeight: FontWeight.bold)),
         actions: [
           CircleAvatar(
             backgroundColor: orange,
